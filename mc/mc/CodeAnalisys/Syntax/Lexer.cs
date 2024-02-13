@@ -1,4 +1,4 @@
-﻿namespace MinskLearn.CodeAnalysis
+﻿namespace MinskLearn.CodeAnalisys.Syntax
 {
     class Lexer
     {
@@ -36,10 +36,10 @@
                 return new SyntaxToken(SyntaxKind.EndOfFileToken, _position, "\0", null);
             }
 
-            if (Char.IsDigit(Current))
+            if (char.IsDigit(Current))
             {
                 var start = _position;
-                while (Char.IsDigit(Current)) Next();
+                while (char.IsDigit(Current)) Next();
 
                 var length = _position - start;
                 var text = _text.Substring(start, length);
@@ -47,10 +47,10 @@
                 return new SyntaxToken(SyntaxKind.NumberToken, start, text, value);
             }
 
-            if (Char.IsWhiteSpace(Current))
+            if (char.IsWhiteSpace(Current))
             {
                 var start = _position;
-                while (Char.IsWhiteSpace(Current)) Next();
+                while (char.IsWhiteSpace(Current)) Next();
 
                 var length = _position - start;
                 var text = _text.Substring(start, length);

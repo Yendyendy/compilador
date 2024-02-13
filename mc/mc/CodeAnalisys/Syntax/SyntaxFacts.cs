@@ -1,4 +1,4 @@
-﻿namespace MinskLearn.CodeAnalysis
+﻿namespace MinskLearn.CodeAnalisys.Syntax
 {
     internal static class SyntaxFacts
     {
@@ -13,6 +13,19 @@
                 case SyntaxKind.PlusToken:
                 case SyntaxKind.MinusToken:
                     return 1;
+
+                default:
+                    return 0;
+            }
+        }
+
+        public static int GetUnaryOperatorPrecedence(this SyntaxKind kind)
+        {
+            switch (kind)
+            {
+                case SyntaxKind.PlusToken:
+                case SyntaxKind.MinusToken:
+                    return 3;
 
                 default:
                     return 0;

@@ -1,4 +1,5 @@
-﻿namespace MinskLearn.CodeAnalysis
+﻿using MinskLearn.CodeAnalisys.Syntax; 
+namespace MinskLearn.CodeAnalysis
 {
     public sealed class Evaluator
     {
@@ -16,7 +17,7 @@
 
         private int EvaluateExpression(ExpressionSyntax node)
         {
-            if (node is NumberExpressionSyntax n)
+            if (node is LiteralExpressionSyntax n)
             {
                 return (int)n.NumberToken.Value;
             }

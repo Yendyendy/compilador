@@ -1,4 +1,4 @@
-﻿namespace MinskLearn.CodeAnalysis
+﻿namespace MinskLearn.CodeAnalisys.Syntax
 {
     public abstract class SyntaxNode
     {

@@ -1,4 +1,4 @@
-﻿namespace MinskLearn.CodeAnalysis
+﻿namespace MinskLearn.CodeAnalisys.Syntax
 {
     public enum SyntaxKind
     {
@@ -13,9 +13,10 @@
         OpenParenthesisToken,
         CloseParenthesisToken,
 
-        NumberExpression,
+        LiteralExpression,
         BinaryExpression,
         ParenthesizedExpression,
+        UnaryExpression,
     }
 }
 

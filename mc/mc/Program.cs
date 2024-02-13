@@ -1,4 +1,5 @@
-﻿using MinskLearn.CodeAnalysis;
+﻿using MinskLearn.CodeAnalisys.Syntax;
+using MinskLearn.CodeAnalysis;
 namespace MinskLearn
 {
     internal static class Program
