@@ -1,30 +1,68 @@
-﻿using MinskLearn.CodeAnalisys.Syntax;
+﻿using MinskLearn.CodeAnalisys.Binding;
+using MinskLearn.CodeAnalisys.Syntax;
 using MinskLearn.CodeAnalysis;
 namespace MinskLearn
 {
+
+    /*
+     añadir al parser and, or, true, false
+     cambiar evaluator 
+     */
     internal static class Program
     {
         static void Main()
         {
-            Console.WriteLine("Hello, Minsk!");
+            var showTree = false;
+            Console.WriteLine("Welcome to Minks!");
+
             while (true)
             {
-                Console.Write(">");
+                Console.Write("> ");
                 var line = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(line))
-                {
                     return;
+
+                if (line == "#showTree")
+                {
+                    showTree = !showTree;
+                    Console.WriteLine(showTree ? "Showing parse trees." : "Not showing parse trees");
+                    continue;
+                }
+                else if (line == "#cls")
+                {
+                    Console.Clear();
+                    continue;
                 }
 
                 var syntaxTree = SyntaxTree.Parse(line);
-                PrettyPrint(syntaxTree.Root);
-                if (!syntaxTree.Diagnostics.Any())
+                var binder = new Binder();
+                var boundExpression = binder.BindExpression(syntaxTree.Root);
+
+                var diagnostics = syntaxTree.Diagnostics.Concat(binder.Diagnostics).ToArray();
+
+
+                if (showTree)
                 {
-                    var e = new Evaluator(syntaxTree.Root);
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    PrettyPrint(syntaxTree.Root);
+                    Console.ResetColor();
+                }
+
+                if (!diagnostics.Any())
+                {
+                    var e = new Evaluator(boundExpression);
                     var result = e.Evaluate();
                     Console.WriteLine(result);
                 }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
 
+                    foreach (var diagnostic in diagnostics)
+                        Console.WriteLine(diagnostic);
+
+                    Console.ResetColor();
+                }
             }
 
         }

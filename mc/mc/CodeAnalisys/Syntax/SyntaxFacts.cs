@@ -2,34 +2,53 @@
 {
     internal static class SyntaxFacts
     {
-        public static int GetBinaryOperatorPrecedence(this SyntaxKind kind)
+        internal static int GetBinaryOperatorPrecedence(this SyntaxKind kind)
         {
             switch (kind)
             {
                 case SyntaxKind.StarToken:
                 case SyntaxKind.SlashToken:
-                    return 2;
-
+                    return 5;
                 case SyntaxKind.PlusToken:
                 case SyntaxKind.MinusToken:
-                    return 1;
+                    return 4;
+                case SyntaxKind.BangEqualsToken:
+                case SyntaxKind.EqualsEqualsToken:
+                    return 3;
+                case SyntaxKind.AmpersandAmpersandToken:
+                    return 2;
+                case SyntaxKind.PipePipeToken: 
+                    return 1; 
+                default:
+                    return 0;
+            }
+        }
+
+        internal static int GetUnaryOperatorPrecedence(this SyntaxKind kind)
+        {
+            switch (kind)
+            {
+                case SyntaxKind.BangToken: 
+                case SyntaxKind.PlusToken:
+                case SyntaxKind.MinusToken:
+                    return 6;
 
                 default:
                     return 0;
             }
         }
 
-        public static int GetUnaryOperatorPrecedence(this SyntaxKind kind)
-        {
-            switch (kind)
+        internal static SyntaxKind GetKeywordKind (this string text) { 
+            switch(text)
             {
-                case SyntaxKind.PlusToken:
-                case SyntaxKind.MinusToken:
-                    return 3;
-
+                case "true":
+                    return SyntaxKind.TrueKeyword;
+                case "false":
+                    return SyntaxKind.FalseKeyword;
                 default:
-                    return 0;
+                    return SyntaxKind.IdentifierToken;
             }
+        
         }
     }
 }

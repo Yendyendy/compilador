@@ -111,16 +111,27 @@
 
         //parentesis
         public ExpressionSyntax ParsePrimaryExpression()
-        {
-            if (Current.Kind == SyntaxKind.OpenParenthesisToken)
+        { 
+            switch (Current.Kind)
             {
-                var left = NextToken();
-                var middle = ParseExpression();
-                var right = Match(SyntaxKind.CloseParenthesisToken);
-                return new ParenthesizedExpressionSyntax(left, middle, right);
+                case SyntaxKind.OpenParenthesisToken:
+                    var left = NextToken();
+                    var middle = ParseExpression();
+                    var right = Match(SyntaxKind.CloseParenthesisToken);
+                    return new ParenthesizedExpressionSyntax(left, middle, right);
+                case SyntaxKind.TrueKeyword:
+                case SyntaxKind.FalseKeyword:
+                    var keywordToken = NextToken();
+                    //Interesante línea
+                    var value = keywordToken.Kind == SyntaxKind.TrueKeyword;
+                    return new LiteralExpressionSyntax(keywordToken, value);
+                default:
+                    //el match asegura lo que el default da por supuesto
+                    var numberToken = Match(SyntaxKind.NumberToken);
+                    return new LiteralExpressionSyntax(numberToken);
+
             }
-            var numberToken = Match(SyntaxKind.NumberToken);
-            return new LiteralExpressionSyntax(numberToken);
+
         }
 
         ////suma resta
